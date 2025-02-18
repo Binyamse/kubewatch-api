@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubewatch-api
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: kubewatch-api
+  template:
+    metadata:
+      labels:
+        app: kubewatch-api
+    spec:
+      containers:
+      - name: kubewatch-api
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 8080
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
