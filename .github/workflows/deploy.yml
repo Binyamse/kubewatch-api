@@ -82,12 +82,13 @@ jobs:
         run: |
           cd helm-charts/
           helm repo index --url https://Binyamse.github.io/helm-charts/ --merge index.yaml .
-          - name: Push Updated Helm Repository to GitHub Pages
-          run: |
-            cd helm-charts/
-            git add .
-            git commit -m "Update Helm chart"
-            git push origin main
+      
+      - name: Push Updated Helm Repository to GitHub Pages
+        run: |
+          cd helm-charts/
+          git add .
+          git commit -m "Update Helm chart"
+          git push origin main
 
       - name: Output Helm Repository URL
-        run: echo "Helm Repository published at https://yourgithubusername.github.io/helm-charts/"
+        run: echo "Helm Repository published at https://Binyamse.github.io/helm-charts/"
