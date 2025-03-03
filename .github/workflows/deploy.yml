@@ -22,8 +22,10 @@ jobs:
 
       - name: Build Go Application
         run: |
+          export GO111MODULE=on
+          go mod init || true
           go mod tidy
-          go build -o kubewatch-api cmd/main.go
+          go build -o k8s-api-monitor cmd/main.go}
 
       - name: Log in to DockerHub
         uses: docker/login-action@v2
