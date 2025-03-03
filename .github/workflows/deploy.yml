@@ -59,3 +59,43 @@ jobs:
         with:
           name: helm-chart
           path: helm-package/
+
+  publish:
+    needs: helm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      - name: Configure Git User
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: Download Helm Chart Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: helm-chart
+          path: helm-charts/
+
+      - name: Update Helm Repository Index
+        run: |
+          cd helm-charts/
+          helm repo index --url https://Binyamse.github.io/helm-charts/ --merge index.yaml .
+
+      - name: Push Updated Helm Repository to GitHub Pages
+        run: |
+          cd helm-charts/
+          git init
+          git add .
+          git commit -m "Update Helm chart"
+          git branch -M main
+          git remote add origin https://github.com/Binyamse/helm-charts.git
+          git push -u origin main --force
+
+      - name: Output Helm Repository URL
+        run: echo "Helm Repository published at https://Binyamse.github.io/helm-charts/"
