@@ -55,7 +55,7 @@ jobs:
           mv kubewatch-api-*.tgz helm-package/
 
       - name: Upload Helm Chart as Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: helm-chart
           path: helm-package/
