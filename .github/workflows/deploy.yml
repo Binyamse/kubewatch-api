@@ -52,6 +52,7 @@ jobs:
       - name: Package Helm Chart
         run: |
           helm package deployment/helm
+          mkdir -p helm-package
           mv kubewatch-api-*.tgz helm-package/
 
       - name: Upload Helm Chart as Artifact
