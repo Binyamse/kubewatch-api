@@ -65,17 +65,12 @@ jobs:
     needs: helm
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Install Helm
+      - name: Checkout Helm Charts Repository
         run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-      - name: Configure Git User
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "GitHub Actions"
+          git clone https://github.com/Binyamse/helm-charts.git helm-charts
+          cd helm-charts
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
 
       - name: Download Helm Chart Artifact
         uses: actions/download-artifact@v4
@@ -87,16 +82,12 @@ jobs:
         run: |
           cd helm-charts/
           helm repo index --url https://Binyamse.github.io/helm-charts/ --merge index.yaml .
-
-      - name: Push Updated Helm Repository to GitHub Pages
-        run: |
-          cd helm-charts/
-          git init
-          git add .
-          git commit -m "Update Helm chart"
-          git branch -M main
-          git remote add origin https://github.com/Binyamse/helm-charts.git
-          git push -u origin main --force
+          - name: Push Updated Helm Repository to GitHub Pages
+          run: |
+            cd helm-charts/
+            git add .
+            git commit -m "Update Helm chart"
+            git push origin main
 
       - name: Output Helm Repository URL
-        run: echo "Helm Repository published at https://Binyamse.github.io/helm-charts/"
+        run: echo "Helm Repository published at https://yourgithubusername.github.io/helm-charts/"
