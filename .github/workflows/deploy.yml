@@ -67,10 +67,10 @@ jobs:
     steps:
       - name: Checkout Helm Charts Repository
         run: |
-          git clone https://github.com/Binyamse/helm-charts.git helm-charts
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/Binyamse/helm-charts.git helm-charts
           cd helm-charts
-          git config user.email "github-actions@github.com"
-          git config user.name "GitHub Actions"
+          git config user.email "contact@binyam.io"
+          git config user.name "Binyam S"
 
       - name: Download Helm Chart Artifact
         uses: actions/download-artifact@v4
@@ -88,7 +88,7 @@ jobs:
           cd helm-charts/
           git add .
           git commit -m "Update Helm chart"
-          git push origin main
+          git push https://${{ secrets.GH_TOKEN }}@github.com/Binyamse/helm-charts.git main
 
       - name: Output Helm Repository URL
         run: echo "Helm Repository published at https://Binyamse.github.io/helm-charts/"
